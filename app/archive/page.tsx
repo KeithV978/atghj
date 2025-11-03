@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import ArchiveFilter from '@/app/components/archive/ArchiveFilter';
 import ArchiveGrid from '@/app/components/archive/ArchiveGrid';
