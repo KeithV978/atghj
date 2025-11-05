@@ -35,7 +35,7 @@ export default function FeaturedIssues({ issues }: FeaturedIssuesProps) {
               <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-md transition-transform duration-300 group-hover:scale-105">
               {issue.coverImage && 
                <Image
-                  src={issue.coverImage || ""}
+                  src={issue.coverImage}
                   alt={`Volume ${issue.volume}, Issue ${issue.issue}`}
                   fill
                   className="object-cover"
