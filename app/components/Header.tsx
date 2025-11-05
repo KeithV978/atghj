@@ -10,6 +10,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLanguage, setLanguage] = useState('en');
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
 
   // Handle scroll events
   useEffect(() => {
@@ -23,13 +24,20 @@ export default function Header() {
   const mainNav = [
     { name: 'Current Issue', href: '/current-issue' },
     { name: 'Archive', href: '/archive' },
-    { name: 'Submit', href: '/submit' },
+    { name: 'Dashboard', href: 'https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active' },
     { name: 'Author Guidelines', href: '/guidelines' },
   ];
 
   const secondaryNav = [
     { name: 'Editorial Board', href: '/editorial-board' },
     { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const resourcesNav = [
+    { name: 'About The Journal', href: '/about' },
+    { name: 'Editorial Masthead', href: '/editorial-masthead' },
+    { name: 'Privacy Statement', href: '/privacy-statement' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -128,6 +136,63 @@ export default function Header() {
                     </Link>
                   </motion.div>
                 ))}
+                
+                {/* Resources Dropdown */}
+                <div className="relative">
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ y: 0 }}
+                    className="text-gray-700 hover:text-primary-600 dark:text-gray-300 
+                             dark:hover:text-white transition-colors duration-200 
+                             text-sm font-medium flex items-center"
+                    onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                  >
+                    Resources
+                    <svg
+                      className={`ml-1 h-4 w-4 transition-transform ${
+                        isResourcesOpen ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </motion.button>
+
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {isResourcesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white 
+                                 dark:bg-gray-800 ring-1 ring-black ring-opacity-5"
+                      >
+                        <div className="py-1">
+                          {resourcesNav.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                                       dark:text-gray-300 dark:hover:bg-gray-700"
+                              onClick={() => setIsResourcesOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
 
               {/* Submit Button */}
