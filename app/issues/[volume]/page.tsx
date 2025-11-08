@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { Issues, IssuesResponse } from '@/app/api/issues/types';
 
 // Components
-import IssueFilter from '@/app/components/issues/IssueFilter';
+// import IssueFilter from '@/app/components/issues/IssueFilter';
 import IssueCard from '@/app/components/issues/IssueCard';
  
 export default function IssuesPage() {
