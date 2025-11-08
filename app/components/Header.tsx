@@ -22,22 +22,22 @@ export default function Header() {
   }, []);
 
   const mainNav = [
-    { name: 'Current Issue', href: '/current-issue' },
+    { name: 'Current Issue', href: '/' },
     { name: 'Archive', href: '/archive' },
-    { name: 'Dashboard', href: 'https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active' },
+    // { name: 'Dashboard', href: 'https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active' },
     { name: 'Author Guidelines', href: '/guidelines' },
   ];
 
   const secondaryNav = [
-    { name: 'Editorial Board', href: '/editorial-board' },
+    // { name: 'Editorial Board', href: '/board' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
 
   const resourcesNav = [
     { name: 'About The Journal', href: '/about' },
-    { name: 'Editorial Masthead', href: '/editorial-masthead' },
-    { name: 'Privacy Statement', href: '/privacy-statement' },
+    { name: 'Editorial Masthead', href: '/masthead' },
+    { name: 'Privacy Statement', href: '/policy' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -201,7 +201,7 @@ export default function Header() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link
-                  href="/submit"
+                  href="https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active"
                   className="inline-flex items-center px-6 py-2.5 border border-transparent 
                            text-sm font-semibold rounded-full text-white bg-primary-600 
                            hover:bg-primary-700 transition-colors duration-200 
@@ -272,7 +272,7 @@ export default function Header() {
                 ))}
                 <div className="px-3 py-3">
                   <Link
-                    href="/submit"
+                    href="https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active"
                     className="w-full inline-flex justify-center items-center px-4 py-2.5 
                              border border-transparent text-base font-medium rounded-md 
                              text-white bg-primary-600 hover:bg-primary-700 
