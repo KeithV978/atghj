@@ -101,7 +101,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p>African Translational & Global Health Journal</p>
-                  <p>Email: editorial@atghj.africa</p>
+                  <p>Email: adeoluwa@atghj.africa</p>
                   <p>Response Time: 2-3 business days</p>
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="space-y-2 text-gray-600">
                   <p>For submission system or website issues:</p>
-                  <p>Email: support@atghj.africa</p>
+                  <p>Email: admin@atghj.africa</p>
                   <p>Response Time: 24-48 hours</p>
                 </div>
               </div>
@@ -123,18 +123,18 @@ export default function ContactPage() {
                 </h3>
                 <ul className="space-y-2 text-gray-600">
                   <li>
-                    <a href="/submit" className="text-blue-600 hover:text-blue-800">
+                    <a href="https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active" className="text-blue-600 hover:text-blue-800">
                       Submit a Manuscript
                     </a>
                   </li>
                   <li>
-                    <a href="/author-guidelines" className="text-blue-600 hover:text-blue-800">
+                    <a href="/guidelines" className="text-blue-600 hover:text-blue-800">
                       Author Guidelines
                     </a>
                   </li>
                   <li>
-                    <a href="/editorial-board" className="text-blue-600 hover:text-blue-800">
-                      Editorial Board
+                    <a href="/masthead" className="text-blue-600 hover:text-blue-800">
+                      Editorial Masthead
                     </a>
                   </li>
                 </ul>

@@ -1,8 +1,6 @@
 import HeroSection from './components/HeroSection';
-// import FeaturedIssues from './components/FeaturedIssues';
-// import FeaturedArticles from './components/FeaturedArticles'; 
-import { fetchCurrentIssue } from './api/journal/fetch';
-import LatestIssue from './components/LatestIssue';
+import { fetchCurrentIssue } from './api/journal/fetch'; 
+import LatestIssue from './components/LatestIssue'; 
 
 export default async function Home() {
   try {

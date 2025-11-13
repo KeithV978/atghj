@@ -124,7 +124,7 @@ export default function Footer() {
             </div>
 
             {/* Social Media Links */}
-            {/* <div className="mt-6">
+            <div className="mt-6">
               <h4 className="text-white font-semibold mb-3">Follow Us</h4>
               <div className="flex space-x-4">
                 <a href="https://twitter.com/atghj" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
@@ -143,7 +143,7 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
-            </div> */}
+            </div> *
           </div>
         </div>
       </div>

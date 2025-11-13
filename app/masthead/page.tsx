@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import orcidIcon from '../../public/images/ORCID_logo.svg.png';
 
 interface EditorialMember {
   name: string;
@@ -23,65 +24,72 @@ interface EditorialTeam {
 const editorialTeam: EditorialTeam = {
   editorInChief: [
     {
-      name: "Prof. Sarah Mbekwa",
-      role: "Editor-in-Chief",
-      affiliation: "University of Cape Town",
-      country: "South Africa",
-      orcid: "0000-0002-1234-5678",
-      profileImage: "/images/editors/sarah-mbekwa.jpg",
-      bio: "Professor of Translational Medicine with 20+ years experience in biomedical research and academic publishing."
+      name: "Prof. Adeoluwa",
+      role: "Editor-in-Chief - Biomedical Sciences",
+      affiliation: "Afe Babalola University",
+      country: "Ekiti, Nigeria",
+      orcid: "0000-xxxx-xxxx-xxxx",
+      profileImage: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png",
+      bio: "Oversees journal operations Sets strategic vision and policies Approves final manuscript decisions. "
+    }
+  ],
+  managingEditor: [
+    {
+      name: "Dr. K.S. Olaniyi",
+      role: "Managing Editor",
+      affiliation: "Afe Babalola University",
+      country: "Ekiti, Nigeria",
+      orcid: "0000-xxxx-xxxx-xxxx"
     }
   ],
   associateEditors: [
     {
-      name: "Dr. Kwame Nkrumah",
-      role: "Associate Editor - Clinical Research",
-      affiliation: "University of Ghana Medical School",
-      country: "Ghana",
-      orcid: "0000-0002-2345-6789"
+      name: "Prof. Alagbonsi",
+      role: "Associate Editor",
+      affiliation: "Afe Babalola University",
+      country: "Ekiti, Nigeria",
+      orcid: "0000-xxxx-xxxx-xxxx"
+    },
+     {
+      name: "Prof. Ogunmodede",
+     role: "Associate Editor",
+      affiliation: "Afe Babalola University",
+      country: "Ekiti, Nigeria",
+      orcid: "0000-xxxx-xxxx-xxxx"
     },
     {
-      name: "Prof. Fatima Ahmed",
-      role: "Associate Editor - Public Health",
-      affiliation: "Addis Ababa University",
-      country: "Ethiopia",
-      orcid: "0000-0002-3456-7890"
+      name: "Prof. Ekundina",
+     role: "Associate Editor",
+      affiliation: "Afe Babalola University",
+      country: "Ekiti, Nigeria",
+      orcid: "0000-xxxx-xxxx-xxxx"
     }
   ],
   sectionEditors: [
     {
       name: "Dr. John Okonjo",
-      role: "Section Editor - Biomedical Sciences",
+      role: "Section Editor",
       affiliation: "University of Ibadan",
       country: "Nigeria",
-      orcid: "0000-0002-4567-8901"
+      orcid: "0000-xxxx-xxxx-xxxx"
     }
   ],
   editorialBoard: [
-    {
-      name: "Prof. Marie Diop",
-      role: "Editorial Board Member",
-      affiliation: "University of Dakar",
-      country: "Senegal",
-      orcid: "0000-0002-5678-9012"
-    }
-  ],
-  managingEditor: [
-    {
-      name: "Dr. Elizabeth Nyamwaya",
-      role: "Managing Editor",
-      affiliation: "ATGHJ Editorial Office",
-      country: "Kenya",
-      orcid: "0000-0002-6789-0123"
-    }
-  ],
+  //   {
+  //     name: "Prof. Marie Diop",
+  //     role: "Editorial Board Member",
+  //     affiliation: "University of Dakar",
+  //     country: "Senegal",
+  //     orcid: "0000-0002-5678-9012"
+  //   }
+  ], 
   technicalEditor: [
     {
-      name: "Mr. Victor Olorunda",
+      name: " Prof. L.A. Enye",
       role: "Technical Editor",
       affiliation: "ATGHJ Editorial Office",
       country: "Nigeria",
-      orcid: "0000-0002-7890-1234"
+     orcid: "0000-xxxx-xxxx-xxxx"
     }
   ]
 };
@@ -114,10 +122,10 @@ function EditorialMemberCard({ member }: { member: EditorialMember }) {
               className="inline-flex items-center mt-2 text-sm text-gray-600 hover:text-indigo-600"
             >
               <Image
-                src="/images/orcid-logo.svg"
+                src={orcidIcon}
                 alt="ORCID"
-                width={16}
-                height={16}
+                width={32}
+                height={32}
                 className="mr-1"
               />
               {member.orcid}

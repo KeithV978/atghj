@@ -17,7 +17,14 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/public/**',
       },
-    ],
+      // Configuration for Pixabay CDN
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '',
+        pathname: '/photo/**',
+      },
+    ], 
   }
 };
 

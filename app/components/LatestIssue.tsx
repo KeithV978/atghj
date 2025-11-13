@@ -7,10 +7,13 @@ interface LatestIssueComponentProps {
 }
 
 export default function LatestIssue({ issue }: LatestIssueComponentProps) {
+    console.log({"issue in LatestIssue component": issue.articles});
     return (
+
         <section className="py-16 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Cover Image */}
+                <Link href={`issues/${issue.id}/articles`} className="text-center mb-8 block">
                 <div className="relative aspect-[3/4] max-w-md mx-auto rounded-lg overflow-hidden shadow-lg">
                     {issue.coverImageUrl?.en && (
                         <Image
@@ -22,7 +25,7 @@ export default function LatestIssue({ issue }: LatestIssueComponentProps) {
                         />
                     )}
                 </div>
-
+                </Link>
                 {/* Issue Details */}
                 <div className="mt-8 text-center">
                     <h2 className="text-3xl font-bold text-gray-900">{issue.title.en}</h2>
@@ -33,19 +36,26 @@ export default function LatestIssue({ issue }: LatestIssueComponentProps) {
                         <h3 className="text-xl font-semibold mb-6">Articles in this Issue</h3>
                         <div className="space-y-6">
                             {issue.articles.map((article) => (
-                                <article key={article.id} className="max-w-2xl mx-auto">
-                                    <h4 className="text-lg font-medium">
-                                        <Link 
-                                            href={article.urlPublished}
-                                            className="hover:text-indigo-600 transition-colors"
-                                        >
-                                            {/* {article.title.en} */}
-                                        </Link>
-                                    </h4>
-                                    <p className="mt-1 text-sm text-gray-600">
-                                        {article.authorsString}
-                                    </p>
-                                </article>
+                                // <article key={article.id} className="max-w-2xl mx-auto">
+                                //     <h4 className="text-lg font-medium">
+                                //         <Link 
+                                //             href={article.urlPublished}
+                                //             className="hover:text-indigo-600 transition-colors"
+                                //         >
+                                //             {article.title?.en}
+                                //         </Link>
+                                //     </h4>
+                                //     <p className="mt-1 text-sm text-gray-600">
+                                //         {article.authorsString}
+                                //     </p>
+                                // </article>
+                                <div key={article.id} className="max-w-2xl mx-auto">
+                                    {article.publications.map((pub, i) => (
+                                        <div key={i}>
+                                            {pub?.title?.en ?? pub?.fullTitle?.en ?? 'Untitled Article'}
+                                            </div>
+                                    ))}
+                                </div>
                             ))}
                         </div>
                     </div>

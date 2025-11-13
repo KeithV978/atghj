@@ -1,3 +1,5 @@
+import { Publication } from '@/types';
+
 export interface Author {
   name: string;
   orcid?: string;
@@ -141,18 +143,21 @@ export interface LocalizedString {
 
 export interface Article {
   id: number;
-  title: LocalizedString;
+  title: {en: string };
   authorsString: string;
   datePublished: string;
   urlPublished: string;
   status: number;
   statusLabel: string;
+  publications: Array<{
+    pub: Publication;
+  }>;
 }
 
 export interface Section {
   id: number;
-  title: LocalizedString;
-  abbrev: LocalizedString;
+  title: {en: string };
+  abbrev: {en: string };
   sequence: number;
 }
 
@@ -161,12 +166,12 @@ export interface LatestIssueProps {
   volume: number;
   number: string;
   year: number;
-  title: LocalizedString;
-  description: LocalizedString;
+  title: {en: string };
+  description: {en: string };
   datePublished: string;
-  coverImage: LocalizedString;
-  coverImageUrl: LocalizedString;
-  coverImageAltText: LocalizedString;
+  coverImage: {en: string };
+  coverImageUrl: {en: string };
+  coverImageAltText: {en: string };
   identification: string;
   publishedUrl: string;
   articles: Article[];

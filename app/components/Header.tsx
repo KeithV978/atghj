@@ -24,7 +24,7 @@ export default function Header() {
   const mainNav = [
     { name: 'Current Issue', href: '/' },
     { name: 'Archive', href: '/archive' },
-    // { name: 'Dashboard', href: 'https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active' },
+    { name: 'Dashboard', href: 'https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active' },
     { name: 'Author Guidelines', href: '/guidelines' },
   ];
 
@@ -92,7 +92,7 @@ export default function Header() {
                   alt="ATGHJ Logo"
                   width={80}
                   height={48}
-                  className="w-12 h-12"
+                  className="w-55 h-55"
                   priority
                 />
                 <div className="flex flex-col">

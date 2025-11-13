@@ -77,7 +77,7 @@ export default function GuidelinesPage() {
                 <p className="text-gray-600 mb-4">
                   If you have any questions about the submission process, please contact our editorial office:
                 </p>
-                <p className="text-gray-600">Email: editorial@atghj.africa</p>
+                <p className="text-gray-600">Email: adeoluwa@atghj.africa</p>
               </div>
             </div>
           </div>
@@ -101,10 +101,10 @@ const sections: GuidelineSection[] = [
         <ul className="list-disc pl-6 mt-4 space-y-2">
           <li>Biomedical sciences</li>
           <li>Translational medicine</li>
-          <li>Clinical research</li>
-          <li>Neuroscience</li>
           <li>Public health</li>
-          <li>Epidemiology</li>
+          <li>Clinical research</li>
+          {/* <li>Neuroscience</li> */}
+          {/* <li>Epidemiology</li> */}
         </ul>
       </>
     ),
@@ -250,7 +250,7 @@ const sections: GuidelineSection[] = [
           ATGHJ is an open-access journal with the following publication fees:
         </p>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Article Processing Charge (APC): $1,200 USD</li>
+          <li>Article Processing Charge (APC): N0 (Naira)</li>
           <li>Waiver program available for authors from low-income countries</li>
           <li>No submission fees</li>
           <li>No page charges</li>
