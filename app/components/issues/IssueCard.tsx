@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Issues } from '@/app/api/issues/types';
+import { Issues } from '@/app/api/issues/current/types';
 import Link from 'next/link';
 import { format } from 'date-fns';
 

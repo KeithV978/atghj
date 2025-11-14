@@ -1,66 +1,144 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { LatestIssueProps as IssueType } from '@/app/api/journal/types';
+'use client';
 
-interface LatestIssueComponentProps {
-    issue: IssueType;
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+
+interface IssueProp {
+  id: number;
+  title: string | { [locale: string]: string };
+  description?: string | { [locale: string]: string };
+  volume?: number;
+  number?: string;
+  year?: number;
+  datePublished?: string;
+  coverImageUrl?: {en: string}
+  urlPublished?: string;
+  articles?: Array<{
+    id: number;
+    title: string | { [locale: string]: string };
+  }>;
 }
 
-export default function LatestIssue({ issue }: LatestIssueComponentProps) {
-    console.log({"issue in LatestIssue component": issue.articles});
-    return (
+export default function LatestIssue() {
+    const [issue, setIssue] = useState<IssueProp | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
+    console.log({"issue in LatestIssue component": issue});
+  useEffect(() => {
+    async function fetchCurrentIssue() {
+      try {
+        const response = await fetch('/api/issues/current');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch current issue');
+        }
 
-        <section className="py-16 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Cover Image */}
-                <Link href={`issues/${issue.id}/articles`} className="text-center mb-8 block">
-                <div className="relative aspect-[3/4] max-w-md mx-auto rounded-lg overflow-hidden shadow-lg">
-                    {issue.coverImageUrl?.en && (
-                        <Image
-                            src={issue.coverImageUrl.en}
-                            alt={issue.coverImageAltText?.en || 'Issue cover'}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    )}
-                </div>
-                </Link>
-                {/* Issue Details */}
-                <div className="mt-8 text-center">
-                    <h2 className="text-3xl font-bold text-gray-900">{issue.title.en}</h2>
-                    <p className="mt-2 text-lg text-gray-600">{issue.identification}</p>
-                    
-                    {/* Articles List */}
-                    <div className="mt-12">
-                        <h3 className="text-xl font-semibold mb-6">Articles in this Issue</h3>
-                        <div className="space-y-6">
-                            {issue.articles.map((article) => (
-                                // <article key={article.id} className="max-w-2xl mx-auto">
-                                //     <h4 className="text-lg font-medium">
-                                //         <Link 
-                                //             href={article.urlPublished}
-                                //             className="hover:text-indigo-600 transition-colors"
-                                //         >
-                                //             {article.title?.en}
-                                //         </Link>
-                                //     </h4>
-                                //     <p className="mt-1 text-sm text-gray-600">
-                                //         {article.authorsString}
-                                //     </p>
-                                // </article>
-                                <div key={article.id} className="max-w-2xl mx-auto">
-                                    {article.publications.map((pub, i) => (
-                                        <div key={i}>
-                                            {pub?.title?.en ?? pub?.fullTitle?.en ?? 'Untitled Article'}
-                                            </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        const data = await response.json();
+        setIssue(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCurrentIssue();
+  }, []);
+
+  const getLocalizedValue = (value: string | { [locale: string]: string }) => {
+    if (typeof value === 'string') return value;
+    return value['en'] || value['en_US'] || Object.values(value)[0] || '';
+  };
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        <p>Loading current issue...</p>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8">
+        <p className="text-red-600">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (!issue || issue === null) {
+    return (
+      <div className="text-center py-12">
+          <h2 className="text-xl font-semibold text-gray-900">
+            Unable to load journal data
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Please try again later
+          </p>
+        </div>
+    );
+  }
+ 
+  return (
+    <div className="container mx-auto p-8">
+      <h1 className="text-3xl font-bold mb-6">Current Issue</h1>
+      
+      <div className="border rounded-lg p-6">
+        {issue.coverImageUrl && (
+          <Image 
+            src={issue.coverImageUrl.en} 
+            alt="Issue Cover" 
+            className="w-48 mb-4"
+            width={192}
+            height={288}
+          />
+        )}
+        
+        <h2 className="text-2xl font-semibold mb-2">
+          {getLocalizedValue(issue.title)}
+        </h2>
+        
+        <div className="text-gray-600 mb-4">
+          {issue.volume && <span>Vol. {issue.volume}</span>}
+          {issue.number && <span>, No. {issue.number}</span>}
+          {issue.year && <span> ({issue.year})</span>}
+        </div>
+        
+        {issue.description && (
+          <div 
+            className="mb-4"
+            dangerouslySetInnerHTML={{ 
+              __html: getLocalizedValue(issue.description) 
+            }}
+          />
+        )}
+        
+        {issue.datePublished && (
+          <p className="text-sm text-gray-500 mb-4">
+            Published: {new Date(issue.datePublished).toLocaleDateString()}
+          </p>
+        )}
+        
+        <Link 
+          href={`/issues/${issue.id}/articles`}
+          className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        >
+          View Articles in This Issue
+        </Link>
+        
+        {/* {issue.urlPublished && (
+          <a 
+            href={issue.urlPublished}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block ml-4 text-blue-600 hover:underline"
+          >
+            View on OJS →
+          </a>
+        )} */}
+      </div>
+    </div>
+  );
 }

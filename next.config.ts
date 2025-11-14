@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'atghj.africa',
+        hostname: 'dashboard.atghj.africa',
         port: '',
         pathname: '/public/**',
       },
       // If you also want to support HTTPS:
       {
         protocol: 'https',
-        hostname: 'atghj.africa',
+        hostname: 'dashboard.atghj.africa',
         port: '',
         pathname: '/public/**',
       },

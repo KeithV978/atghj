@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Issues } from '../api/issues/types';
+import { Issues } from '../api/issues/current/types';
 
 interface Issue {
   id: string;

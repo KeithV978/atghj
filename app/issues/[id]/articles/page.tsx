@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ArticleCard from '@/app/components/ArticleCard';
 import Loading from '@/app/components/Loading';
 import { Article } from '@/types';
-import { ArticlesResponse } from '@/app/api/issues/[id]/articles/types';
+import { ArticlesResponse } from '@/app/api/issues/[issueId]/articles/types';
 import { useParams } from 'next/navigation';
 import IssueCard from '@/app/components/issues/IssueCard';
 
