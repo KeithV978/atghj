@@ -122,22 +122,11 @@ export default function LatestIssue() {
         )}
         
         <Link 
-          href={`/issues/${issue.id}/articles`}
-          className="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          href={`/issues/${issue.id}`}
+          className="inline-block bg-accent text-white px-6 py-2 rounded hover:bg-blue-700"
         >
           View Articles in This Issue
         </Link>
-        
-        {/* {issue.urlPublished && (
-          <a 
-            href={issue.urlPublished}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block ml-4 text-blue-600 hover:underline"
-          >
-            View on OJS →
-          </a>
-        )} */}
       </div>
     </div>
   );

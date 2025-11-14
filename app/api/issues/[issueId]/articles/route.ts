@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
- 
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { issueId: string } }
 ) {
   const { issueId } = params;
-   
-  const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL; 
+  
+  // Get your OJS configuration from environment variables
+  const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL; // e.g., https://example.com/index.php/journal
   const OJS_API_KEY = process.env.NEXT_PUBLIC_OJS_API_KEY;
   
   if (!OJS_BASE_URL || !OJS_API_KEY) {
@@ -18,15 +19,15 @@ export async function GET(
 
   try {
     // Construct the API URL with issueIds parameter and apiKey
-    const apiUrl = new URL(`${OJS_BASE_URL}/api/v1/submissions`);
+    const apiUrl = new URL(`${OJS_BASE_URL}/submissions/`);
     apiUrl.searchParams.append('issueIds', issueId);
-    apiUrl.searchParams.append('apiKey', OJS_API_KEY);
     
     // Optional: Add other query parameters
-    apiUrl.searchParams.append('status', '3'); // 3 = published
+    apiUrl.searchParams.append('status',   '3'); // 3 = published
     apiUrl.searchParams.append('orderBy', 'seq'); // Order by sequence
     apiUrl.searchParams.append('orderDirection', 'ASC');
-    apiUrl.searchParams.append('count', '100'); // Max items per page
+    apiUrl.searchParams.append('count',  '20'); // Max items per page
+    apiUrl.searchParams.append('apiToken', OJS_API_KEY);
 
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',
@@ -42,7 +43,7 @@ export async function GET(
     }
 
     const data = await response.json();
-    
+    console.log({"data fetched from OJS in route": data});
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error fetching articles from OJS:', error);

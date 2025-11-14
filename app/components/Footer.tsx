@@ -143,20 +143,13 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
-            </div> *
-          </div>
-        </div>
-      </div>
+            </div> 
 
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="md:flex md:items-center md:justify-between">
-            <div className="text-sm">
-              © {currentYear} African Translational & Global Health Journal (ATGHJ). All rights reserved.
-            </div>
-            <div className="mt-4 md:mt-0">
-              <ul className="flex flex-wrap gap-4 text-sm">
+          </div>
+            <div>
+            <h3 className="text-white font-semibold mb-4">Policies</h3>
+
+                <ul className="flex flex-col flex-wrap gap-4 text-sm">
                 <li>
                   <Link href="/privacy-policy" className="hover:text-white transition-colors">
                     Privacy Policy
@@ -174,8 +167,15 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-          </div>
         </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-gray-800">
+            <div className="text-sm text-center">
+              © {currentYear} African Translational & Global Health Journal (ATGHJ). All rights reserved.
+            </div>
+        
       </div>
     </footer>
   );

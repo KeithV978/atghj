@@ -5,12 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import logo from '../../public/logo/Color@4x.png';
+// import { sub } from 'date-fns';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLanguage, setLanguage] = useState('en');
+  // const [isLanguage, setLanguage] = useState('en');
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const submission_url = process.env.SUBMISSION_URL
 
   // Handle scroll events
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function Header() {
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="bg-primary-600 text-white"
+        className="bg-primary text-grey-800"
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-10 text-sm">
@@ -56,12 +58,12 @@ export default function Header() {
             </p>
             <div className="flex items-center space-x-4">
               <span>Volume 1, Issue 1 - October 2025</span>
-              <button
+              {/* <button
                 onClick={() => setLanguage(isLanguage === 'en' ? 'en' : 'fr' )}
                 className="text-white hover:text-gray-200 transition-colors"
               >
                 {isLanguage === 'en' ? 'EN' : 'FR'}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -97,7 +99,7 @@ export default function Header() {
                 />
                 <div className="flex flex-col">
                   <motion.span 
-                    className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                    className="text-2xl font-bold tracking-tight text-accent dark:text-white"
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
@@ -105,7 +107,7 @@ export default function Header() {
                     ATGHJ
                   </motion.span>
                   <motion.span 
-                    className="text-sm text-gray-600 dark:text-gray-400"
+                    className="text-sm text-accent dark:text-gray-900"
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
@@ -201,10 +203,10 @@ export default function Header() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link
-                  href="https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active"
+                  href={submission_url|| "https://dashboard.atghj.africa/index.php/journal/submission"}
                   className="inline-flex items-center px-6 py-2.5 border border-transparent 
-                           text-sm font-semibold rounded-full text-white bg-primary-600 
-                           hover:bg-primary-700 transition-colors duration-200 
+                           text-sm font-semibold rounded-full text-white bg-accent
+                           hover:bg-primary transition-colors duration-200 
                            shadow-sm hover:shadow-md focus:outline-none focus:ring-2 
                            focus:ring-offset-2 focus:ring-primary-500"
                 >
@@ -262,7 +264,7 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     className="block px-3 py-2 text-base font-medium text-gray-700 
-                             hover:bg-gray-50 hover:text-primary-600 rounded-md 
+                             hover:bg-gray-50 hover:text-primary rounded-md 
                              dark:text-gray-300 dark:hover:bg-gray-800 
                              dark:hover:text-white transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -275,7 +277,7 @@ export default function Header() {
                     href="https://atghj.africa/index.php/atghj/dashboard/mySubmissions?currentViewId=active"
                     className="w-full inline-flex justify-center items-center px-4 py-2.5 
                              border border-transparent text-base font-medium rounded-md 
-                             text-white bg-primary-600 hover:bg-primary-700 
+                             text-white bg-primary-600 hover:bg-primary 
                              transition-colors duration-200"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

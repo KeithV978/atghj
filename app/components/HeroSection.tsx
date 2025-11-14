@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import hero from '../../public/images/hero.jpg'
 
 export default function HeroSection() {
   return (
-    <div className="relative bg-gradient-to-r from-indigo-900 to-blue-800 text-white">
+    <div className="relative bg-gradient-to-r from-indigo-900 to-blue-800 text-white bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${hero.src})`}}>
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
