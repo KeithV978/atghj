@@ -27,7 +27,6 @@ interface Submission {
   sectionTitle?: string;
 }
 
-
 interface IssueData {
   id: number;
   title: string | { [locale: string]: string };
@@ -45,12 +44,10 @@ interface SubmissionsResponse {
   itemsMax: number;
 }
 
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ issueId: string }> }
-)  {
-  const { issueId } = await params;
+// ✅ No params - get issueId from query string instead
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const issueId = searchParams.get('issueId') || '1';
 
   const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL;
   const OJS_API_KEY = process.env.NEXT_PUBLIC_OJS_API_KEY;
@@ -59,6 +56,13 @@ export async function GET(
     return NextResponse.json(
       { error: 'OJS configuration missing' },
       { status: 500 }
+    );
+  }
+
+  if (!issueId) {
+    return NextResponse.json(
+      { error: 'issueId is required' },
+      { status: 400 }
     );
   }
 
@@ -72,6 +76,8 @@ export async function GET(
     articlesUrl.searchParams.append('count', '100');
     articlesUrl.searchParams.append('apiToken', OJS_API_KEY);
 
+    console.log('📥 Fetching articles from:', articlesUrl.toString());
+
     const articlesResponse = await fetch(articlesUrl.toString(), {
       method: 'GET',
       headers: {
@@ -81,7 +87,7 @@ export async function GET(
     });
 
     if (!articlesResponse.ok) {
-      throw new Error(`OJS API error fetching articles: ${articlesResponse.status}`);
+      throw new Error(`OJS API error: ${articlesResponse.status}`);
     }
 
     const articlesData = await articlesResponse.json();
@@ -105,8 +111,7 @@ export async function GET(
         issue = await issueResponse.json();
       }
     } catch (issueError) {
-      console.error('Error fetching issue details:', issueError);
-      // Continue without issue details
+      console.error('❌ Error fetching issue details:', issueError);
     }
 
     const response: SubmissionsResponse = {
@@ -117,7 +122,7 @@ export async function GET(
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('Error fetching submissions from OJS:', error);
+    console.error('❌ Error fetching submissions:', error);
     return NextResponse.json(
       { error: 'Failed to fetch submissions' },
       { status: 500 }
