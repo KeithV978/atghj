@@ -1,65 +1,60 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { articleId: string; galleyId: string } }
+  { params }: { params: Promise<{ articleId: string; galleyId: string }> }
 ) {
-  const { articleId, galleyId } = params;
+  // ✅ MUST await params before destructuring
+  const { articleId, galleyId } = await params;
   
   const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL;
+  const OJS_API_KEY = process.env.NEXT_PUBLIC_OJS_API_KEY;
   
-  if (!OJS_BASE_URL) {
+  if (!OJS_BASE_URL || !OJS_API_KEY) {
     return NextResponse.json(
       { error: 'OJS configuration missing' },
       { status: 500 }
     );
   }
 
+  if (!articleId || !galleyId) {
+    return NextResponse.json(
+      { error: 'Missing articleId or galleyId' },
+      { status: 400 }
+    );
+  }
+
   try {
     // Construct the download URL
-    // Format: /article/download/{submissionId}/{galleyId}
-    const downloadUrl = `${OJS_BASE_URL}/article/download/${articleId}/${galleyId}`;
+    const downloadUrl = new URL(`${OJS_BASE_URL}/submissions/${articleId}/galleys/${galleyId}`);
+    downloadUrl.searchParams.append('apiToken', OJS_API_KEY);
 
-    // Fetch the file from OJS
-    const response = await fetch(downloadUrl);
+    console.log('📥 Downloading galley from:', downloadUrl.toString());
 
-    if (!response.ok) {
-      throw new Error(`Failed to download file: ${response.status}`);
-    }
-
-    // Get the file as a blob
-    const fileBlob = await response.blob();
-    
-    // Get content type from the response
-    const contentType = response.headers.get('content-type') || 'application/pdf';
-    
-    // Get filename from content-disposition header if available
-    const contentDisposition = response.headers.get('content-disposition');
-    let filename = `article-${articleId}.pdf`;
-    
-    if (contentDisposition) {
-      const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-      if (filenameMatch && filenameMatch[1]) {
-        filename = filenameMatch[1].replace(/['"]/g, '');
-      }
-    }
-
-    // Convert blob to array buffer
-    const arrayBuffer = await fileBlob.arrayBuffer();
-    
-    // Return the file with appropriate headers
-    return new NextResponse(arrayBuffer, {
+    const response = await fetch(downloadUrl.toString(), {
+      method: 'GET',
       headers: {
-        'Content-Type': contentType,
-        'Content-Disposition': `attachment; filename="${filename}"`,
-        'Cache-Control': 'public, max-age=86400', // Cache for 1 day
+        'Accept': 'application/json',
       },
     });
+
+    if (!response.ok) {
+      console.error('❌ Galley download failed:', response.status);
+      throw new Error(`Failed to fetch galley: ${response.status}`);
+    }
+
+    const galleyData = await response.json();
+    
+    // If there's a file URL, redirect to it
+    if (galleyData.file?.url) {
+      return NextResponse.redirect(galleyData.file.url);
+    }
+
+    return NextResponse.json(galleyData);
   } catch (error) {
-    console.error('Error downloading article file:', error);
+    console.error('❌ Error downloading galley:', error);
     return NextResponse.json(
-      { error: 'Failed to download file' },
+      { error: 'Failed to download galley' },
       { status: 500 }
     );
   }

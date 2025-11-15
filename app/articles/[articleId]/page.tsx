@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { CheckIcon, HourglassIcon, ListCheckIcon } from 'lucide-react';
 
 interface Stage {
   id: number;
@@ -114,8 +115,7 @@ export default function ArticlePage() {
     }
 
     fetchArticle();
-    console.log({"articleId in ArticlePage component": article});
-  }, [articleId, article]);
+  }, [articleId]);
 
   const getLocalizedValue = (value: string | { [locale: string]: string } | undefined) => {
     if (!value) return '';
@@ -183,15 +183,15 @@ export default function ArticlePage() {
     return statusMap[status] || 'bg-gray-100 text-gray-800';
   };
 
-  const getStageIcon = (label: string) => {
-    const icons: { [key: string]: string } = {
-      'Submission': '📝',
-      'Review': '👀',
-      'Copyediting': '✏️',
-      'Production': '🖨️'
-    };
-    return icons[label] || '📋';
-  };
+  // const getStageIcon = (label: string) => {
+  //   const icons: { [key: string]: string } = {
+  //     'Submission': '📝',
+  //     'Review': '👀',
+  //     'Copyediting': '✏️',
+  //     'Production': '🖨️'
+  //   };
+  //   return icons[label] || '📋';
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -297,14 +297,17 @@ export default function ArticlePage() {
                           ? 'bg-green-500 text-white' 
                           : 'bg-gray-200 text-gray-600'
                       }`}>
-                        {getStageIcon(stage.label).charAt(0)}
+                        {/* {getStageIcon(stage.label).charAt(0)} */}
+                         {stage.isActiveStage && <ListCheckIcon /> }
+                          {stage.id < article.stageId! && <CheckIcon /> }
+                          {stage.id > article.stageId! && <HourglassIcon /> }
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold text-gray-900">{stage.label}</p>
                         <p className="text-sm text-gray-600">
-                          {stage.isActiveStage && '🔵 Current stage'}
-                          {stage.id < article.stageId! && '✅ Completed'}
-                          {stage.id > article.stageId! && '⏳ Pending'}
+                          {stage.isActiveStage &&  'Current stage'}
+                          {stage.id < article.stageId! && 'Completed'}
+                          {stage.id > article.stageId! && 'Pending'}
                         </p>
                       </div>
                     </div>
@@ -397,7 +400,7 @@ export default function ArticlePage() {
                         <div className="flex gap-2">
                           {fileUrl && (
                             <a
-                              href={`/article/download/${article.id.toString()}/${galley.id.toString()}`}
+                              href={`/api/articles/${article.id.toString()}/download/${galley.id.toString()}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex-1 flex items-center justify-center gap-2 bg-accent text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors font-medium text-sm"
@@ -410,7 +413,7 @@ export default function ArticlePage() {
                           )}
                           {galley.urlPublished && (
                             <a
-                              href={`/article/view/${article.id.toString()}/${galley.id.toString()}`}
+                              href={`/api/articles/${article.id.toString()}/view/${galley.id.toString()}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex-1 flex items-center justify-center gap-2 border border-accent text-accent px-4 py-2 rounded-lg hover:bg-accent/5 transition-colors font-medium text-sm"
@@ -428,12 +431,12 @@ export default function ArticlePage() {
                 </div>
               </div>
             )}
-
+ 
             {/* View Full Article Button */}
-            {publication.urlPublished && (
+            {/* {publication.urlPublished && (
               <div>
-                <a
-                  href={publication.urlPublished}
+                <Link
+                 href={`/article/view/${article.id.toString()}/${publication?.galleys[0].id.toString()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors"
@@ -442,9 +445,9 @@ export default function ArticlePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                   View Full Article on Journal
-                </a>
+                </Link>
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Sidebar */}

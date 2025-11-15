@@ -45,9 +45,12 @@ interface SubmissionsResponse {
   itemsMax: number;
 }
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const issueId = searchParams.get('issueId') || '1';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ issueId: string }> }
+)  {
+  const { issueId } = await params;
 
   const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL;
   const OJS_API_KEY = process.env.NEXT_PUBLIC_OJS_API_KEY;

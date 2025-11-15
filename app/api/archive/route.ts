@@ -20,12 +20,12 @@ export async function GET(request: NextRequest) {
 
   try {
     const apiUrl = new URL(`${OJS_BASE_URL}/issues`);
-    apiUrl.searchParams.append('apiToken', OJS_API_KEY);
     apiUrl.searchParams.append('isPublished', '1');
     apiUrl.searchParams.append('orderBy', 'datePublished');
     apiUrl.searchParams.append('orderDirection', 'DESC');
     apiUrl.searchParams.append('count', count);
     apiUrl.searchParams.append('offset', offset);
+    apiUrl.searchParams.append('apiToken', OJS_API_KEY);
     
     // Add filters if provided
     if (year) {

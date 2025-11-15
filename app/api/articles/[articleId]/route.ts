@@ -28,7 +28,7 @@ export async function GET(
     const apiUrl = new URL(`${OJS_BASE_URL}/submissions/${articleId}`);
     apiUrl.searchParams.append('apiToken', OJS_API_KEY);
 
-    console.log('📤 Fetching article from:', apiUrl.toString());
+    // console.log('📤 Fetching article from:', apiUrl.toString());
 
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',

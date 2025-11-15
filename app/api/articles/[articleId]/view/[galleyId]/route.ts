@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { articleId: string; galleyId: string } }
+  { params }: { params: Promise<{ articleId: string; galleyId: string }> }
 ) {
-  const { articleId, galleyId } = params;
+  // ✅ Await params before destructuring
+  const { articleId, galleyId } = await params;
   
   const OJS_BASE_URL = process.env.NEXT_PUBLIC_OJS_API_URL;
   
@@ -15,19 +16,31 @@ export async function GET(
     );
   }
 
+  if (!articleId || !galleyId) {
+    return NextResponse.json(
+      { error: 'Missing articleId or galleyId' },
+      { status: 400 }
+    );
+  }
+
   try {
     // Construct the view URL (inline display)
     const viewUrl = `${OJS_BASE_URL}/article/view/${articleId}/${galleyId}`;
 
+    console.log('📖 Viewing article from:', viewUrl);
+
     const response = await fetch(viewUrl);
 
     if (!response.ok) {
+      console.error('❌ View failed:', response.status);
       throw new Error(`Failed to fetch file: ${response.status}`);
     }
 
     const fileBlob = await response.blob();
     const contentType = response.headers.get('content-type') || 'application/pdf';
     const arrayBuffer = await fileBlob.arrayBuffer();
+
+    console.log('✅ File loaded successfully');
 
     return new NextResponse(arrayBuffer, {
       headers: {
@@ -37,7 +50,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error viewing article file:', error);
+    console.error('❌ Error viewing article file:', error);
     return NextResponse.json(
       { error: 'Failed to view file' },
       { status: 500 }

@@ -31,49 +31,49 @@ export default function ArchivePage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
+    async function fetchArchive() {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        if (selectedYear !== 'all') {
+          params.append('year', selectedYear);
+        }
+        if (selectedVolume !== 'all') {
+          params.append('volume', selectedVolume);
+        }
+  
+        const response = await fetch(`/api/archive?${params.toString()}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch archive');
+        }
+  
+        const data = await response.json();
+        const fetchedIssues = data.items || [];
+        setIssues(fetchedIssues);
+  
+        // Group issues by year
+        const grouped = fetchedIssues.reduce((acc: GroupedIssues, issue: Issue) => {
+          const year = issue.year?.toString() || 
+                       new Date(issue.datePublished || '').getFullYear().toString() || 
+                       'Unknown';
+          if (!acc[year]) {
+            acc[year] = [];
+          }
+          acc[year].push(issue);
+          return acc;
+        }, {});
+  
+        setGroupedIssues(grouped);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    }
     fetchArchive();
   }, [selectedYear, selectedVolume]);
 
-  async function fetchArchive() {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (selectedYear !== 'all') {
-        params.append('year', selectedYear);
-      }
-      if (selectedVolume !== 'all') {
-        params.append('volume', selectedVolume);
-      }
-
-      const response = await fetch(`/api/archive?${params.toString()}`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch archive');
-      }
-
-      const data = await response.json();
-      const fetchedIssues = data.items || [];
-      setIssues(fetchedIssues);
-
-      // Group issues by year
-      const grouped = fetchedIssues.reduce((acc: GroupedIssues, issue: Issue) => {
-        const year = issue.year?.toString() || 
-                     new Date(issue.datePublished || '').getFullYear().toString() || 
-                     'Unknown';
-        if (!acc[year]) {
-          acc[year] = [];
-        }
-        acc[year].push(issue);
-        return acc;
-      }, {});
-
-      setGroupedIssues(grouped);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const getLocalizedValue = (value: string | { [locale: string]: string } | undefined) => {
     if (!value) return '';
