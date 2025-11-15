@@ -19,7 +19,7 @@ export async function GET(
 
   try {
     // Construct the API URL with issueIds parameter and apiKey
-    const apiUrl = new URL(`${OJS_BASE_URL}/submissions/`);
+    const apiUrl = new URL(`${OJS_BASE_URL}/submissions`);
     apiUrl.searchParams.append('issueIds', issueId);
     
     // Optional: Add other query parameters

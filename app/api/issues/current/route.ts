@@ -1,7 +1,3 @@
-
-// Usage in the GET handler
-// import { fetchIssuesFromOJS } from './fetch'; 
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -14,44 +10,48 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
+
   try {
-    // Construct the API URL to get issues with isCurrent=1
+    // Construct the API URL to get issues with isPublished=1
     const apiUrl = new URL(`${OJS_BASE_URL}/issues`);
-    apiUrl.searchParams.append('isPublished', '1'); // Only published issues
-    apiUrl.searchParams.append('orderBy', 'datePublished'); // Order by date
-    apiUrl.searchParams.append('orderDirection', 'DESC'); // Most recent first
-    apiUrl.searchParams.append('count', '1'); // Get only the first one
+    apiUrl.searchParams.append('isPublished', '1');
+    apiUrl.searchParams.append('orderBy', 'datePublished');
+    apiUrl.searchParams.append('orderDirection', 'DESC');
+    apiUrl.searchParams.append('count', '1');
     apiUrl.searchParams.append('apiToken', OJS_API_KEY);
-    
-    // console.log({"apiUrl": apiUrl.toString() });
+
+    console.log('Fetching current issue from:', apiUrl.toString());
+
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }
     });
 
     if (!response.ok) {
-      console.log({"OJS API response: ": response});
-      throw new Error(`OJS API error: ${response.status}`);
+      console.error('OJS API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: apiUrl.toString()
+      });
+      throw new Error(`OJS API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    
-    // The first item should be the current issue
-    const currentIssue = data.items && data.items.length > 0 ? data.items[0] : null;
-    
+    const currentIssue = data.items?.[0] || null;
+
     if (!currentIssue) {
       return NextResponse.json(
-        { error: 'No current issue found' },
+        { error: 'No published issues found' },
         { status: 404 }
       );
     }
 
     return NextResponse.json(currentIssue);
   } catch (error) {
-    console.error('Error fetching current issue from OJS:', error);
+    console.error('Error fetching current issue:', error);
     return NextResponse.json(
       { error: `Failed to fetch current issue: ${error}` },
       { status: 500 }
