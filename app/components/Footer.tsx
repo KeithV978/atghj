@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-accent text-gray-300">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
@@ -18,7 +18,7 @@ export default function Footer() {
                 alt="ATGHJ Logo"
                 width={180}
                 height={100}
-                className="h-10 w-auto"
+                className="h-auto w-10 object-contain"
               />
             </Link>
             <p className="text-sm">
@@ -51,22 +51,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/editorial-board" className="hover:text-white transition-colors">
+                <Link href="/editorial" className="hover:text-white transition-colors">
                   Editorial Board
                 </Link>
               </li>
               <li>
-                <Link href="/author-guidelines" className="hover:text-white transition-colors">
+                <Link href="/guidelines" className="hover:text-white transition-colors">
                   Author Guidelines
                 </Link>
               </li>
-              <li>
-                <Link href="/reviewer-guidelines" className="hover:text-white transition-colors">
+              {/* <li>
+                <Link href="/guidelines#reviewer" className="hover:text-white transition-colors">
                   Reviewer Guidelines
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link href="/publication-ethics" className="hover:text-white transition-colors">
+                <Link href="/ethics" className="hover:text-white transition-colors">
                   Publication Ethics
                 </Link>
               </li>
