@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 interface Publication {
   id: number;
@@ -39,8 +40,7 @@ export default function IssueArticlesPage() {
     async function fetchArticles() {
       try {
         const response = await fetch(`/api/issues/${issueId}`);
-        
-        console.log({"response in IssueArticlesPage": response});
+         
         if (!response.ok) {
           throw new Error('Failed to fetch articles');
         }
@@ -56,7 +56,7 @@ export default function IssueArticlesPage() {
 
     fetchArticles();
   }, [issueId]);
-
+console.log({"article": articles})
   const getLocalizedValue = (value: string | { [locale: string]: string }) => {
     if (typeof value === 'string') return value;
     return value['en'] || value['en_US'] || Object.values(value)[0] || '';
@@ -123,16 +123,16 @@ export default function IssueArticlesPage() {
                   </div>
                 )}
                 
-                {publication.urlPublished && (
-                  <a 
-                    href={publication.urlPublished}
+                {/* {publication.urlPublished && ( */}
+                  <Link
+                    href={`/articles/${publication.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-4 text-accent hover:underline"
                   >
                     View Full Article →
-                  </a>
-                )}
+                  </Link>
+                {/* )} */}
               </article>
             );
           })}

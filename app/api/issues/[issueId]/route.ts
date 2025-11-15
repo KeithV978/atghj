@@ -34,6 +34,8 @@ if(issueId === undefined || issueId === null){
     apiUrl.searchParams.append('count',  '20'); // Max items per page
     apiUrl.searchParams.append('apiToken', OJS_API_KEY);
 
+    console.log({"url": apiUrl})
+
     const response = await fetch(apiUrl.toString(), {
       method: 'GET',
       headers: {
